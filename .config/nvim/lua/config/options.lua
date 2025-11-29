@@ -15,7 +15,4 @@ vim.opt.syntax         = "enable"
 vim.opt.virtualedit    = "block"
 vim.opt.termguicolors  = true
 vim.opt.mouse          = ""
-vim.opt.fillchars = { eob = ' ' }
-vim.cmd.colorscheme("retrobox")
-
-
+vim.opt.fillchars      = { eob = ' ' }
