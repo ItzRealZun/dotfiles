@@ -10,9 +10,13 @@ import os
 os.environ["HYPRSHOT_DIR"] = os.path.expanduser("~/Pictures/Screenshots")
 
 #Useful variables
-mod      : str            = "mod4"
-terminal : str            = "kitty"
-colors   : dict[str, str] = {
+mod          : str = "mod4"
+terminal     : str = "kitty"
+browser      : str = "vivaldi-stable"
+menu         : str = "wofi --show drun"
+file_manager : str = "pcmanfm-qt"
+
+colors       : dict[str, str] = {
     "background"      : "#00000000",
     "filling"         : "#282738",
     "groups_current"  : "#F2003C",
@@ -45,35 +49,37 @@ def wrap_wayland(command: str) -> str:
 
 keys : list[Key] = [
     #Qtile builtin keybindings
-    Key([mod],            "h",       lazy.layout.left(),              desc="Move focus to left"),
-    Key([mod],            "l",       lazy.layout.right(),             desc="Move focus to right"),
-    Key([mod],            "j",       lazy.layout.down(),              desc="Move focus down"),
-    Key([mod],            "k",       lazy.layout.up(),                desc="Move focus up"),
-    Key([mod],            "space",   lazy.layout.next(),              desc="Move window focus to other window"),
-    Key([mod, "shift"],   "h",       lazy.layout.shuffle_left(),      desc="Move window to the left"),
-    Key([mod, "shift"],   "l",       lazy.layout.shuffle_right(),     desc="Move window to the right",),
-    Key([mod, "shift"],   "j",       lazy.layout.shuffle_down(),      desc="Move window down"),
-    Key([mod, "shift"],   "k",       lazy.layout.shuffle_up(),        desc="Move window up"),
-    Key([mod, "control"], "h",       lazy.layout.grow_left(),         desc="Grow window to the left"),
-    Key([mod, "control"], "l",       lazy.layout.grow_right(),        desc="Grow window to the right"),
-    Key([mod, "control"], "j",       lazy.layout.grow_down(),         desc="Grow window down"),
-    Key([mod, "control"], "k",       lazy.layout.grow_up(),           desc="Grow window up"),
-    Key([mod],            "n",       lazy.layout.normalize(),         desc="Reset all window sizes"),
-    Key([mod, "shift"],   "Return",  lazy.layout.toggle_split(),      desc="Toggle between split and unsplit sides of stack",),
-    Key([mod],            "Tab",     lazy.next_layout(),              desc="Toggle between layouts"),
-    Key([mod, "shift"],   "c",       lazy.window.kill(),              desc="Kill focused window"),
-    Key([mod],            "f",       lazy.window.toggle_fullscreen(), desc="Toggle fullscreen on the focused window",),
-    Key([mod],            "t",       lazy.window.toggle_floating(),   desc="Toggle floating on the focused window",),
-    Key([mod, "control"], "r",       lazy.reload_config(),            desc="Reload the config"),
-    Key([mod, "shift"],   "q",       lazy.shutdown(),                 desc="Shutdown Qtile"),
+    Key([mod],            "h",      lazy.layout.left(),              desc="Move focus to left"),
+    Key([mod],            "l",      lazy.layout.right(),             desc="Move focus to right"),
+    Key([mod],            "j",      lazy.layout.down(),              desc="Move focus down"),
+    Key([mod],            "k",      lazy.layout.up(),                desc="Move focus up"),
+    Key([mod],            "space",  lazy.layout.next(),              desc="Move window focus to other window"),
+    Key([mod, "shift"],   "h",      lazy.layout.shuffle_left(),      desc="Move window to the left"),
+    Key([mod, "shift"],   "l",      lazy.layout.shuffle_right(),     desc="Move window to the right",),
+    Key([mod, "shift"],   "j",      lazy.layout.shuffle_down(),      desc="Move window down"),
+    Key([mod, "shift"],   "k",      lazy.layout.shuffle_up(),        desc="Move window up"),
+    Key([mod, "control"], "h",      lazy.layout.grow_left(),         desc="Grow window to the left"),
+    Key([mod, "control"], "l",      lazy.layout.grow_right(),        desc="Grow window to the right"),
+    Key([mod, "control"], "j",      lazy.layout.grow_down(),         desc="Grow window down"),
+    Key([mod, "control"], "k",      lazy.layout.grow_up(),           desc="Grow window up"),
+    Key([mod],            "n",      lazy.layout.normalize(),         desc="Reset all window sizes"),
+    Key([mod, "shift"],   "Return", lazy.layout.toggle_split(),      desc="Toggle between split and unsplit sides of stack",),
+    Key([mod],            "Tab",    lazy.next_layout(),              desc="Toggle between layouts"),
+    Key([mod],            "c",      lazy.window.kill(),              desc="Kill focused window"),
+    Key([mod, "shift"],   "f",      lazy.window.toggle_fullscreen(), desc="Toggle fullscreen on the focused window",),
+    Key([mod],            "t",      lazy.window.toggle_floating(),   desc="Toggle floating on the focused window",),
+    Key([mod, "control"], "r",      lazy.reload_config(),            desc="Reload the config"),
+    Key([mod, "shift"],   "q",      lazy.shutdown(),                 desc="Shutdown Qtile"),
 
     #Spawn apps
-    Key([mod],            "Return",  lazy.spawn(terminal),                 desc="Launch terminal"),
-    Key([mod, "shift"],   "t",       lazy.spawn("telegram"),               desc="Open telegram"),
-    Key([mod, "shift"],   "v",       lazy.spawn(wrap_wayland("vivaldi")),  desc="Open vivaldi browser",),
-    Key([mod, "shift"],   "o",       lazy.spawn(wrap_wayland("obsidian")), desc="Open obsidian"),
-    Key([mod, "shift"],   "d",       lazy.spawn(wrap_wayland("discord")),  desc="Open discord"),
-    Key([mod, "shift"],   "n",       lazy.spawn(wrap_terminal("nvim")),    desc="Open neovim"),
+    Key([mod], "Return", lazy.spawn(terminal),                 desc="Open terminal"),
+    Key([mod], "m",      lazy.spawn(menu),                     desc="Open launcher"),
+    Key([mod], "f",      lazy.spawn(file_manager),             desc="Open file manager"),
+    Key([mod], "t",      lazy.spawn("telegram"),               desc="Open telegram"),
+    Key([mod], "b",      lazy.spawn(wrap_wayland(browser)),    desc="Open browser",),
+    Key([mod], "o",      lazy.spawn(wrap_wayland("obsidian")), desc="Open obsidian"),
+    Key([mod], "d",      lazy.spawn(wrap_wayland("discord")),  desc="Open discord"),
+    Key([mod], "n",      lazy.spawn(wrap_terminal("nvim")),    desc="Open neovim"),
 
     #Screenshot
     Key(["shift"],        "print",   lazy.spawn("hyprshot -m region --clipboard-only"), desc="Screenshot to clipboard",),
